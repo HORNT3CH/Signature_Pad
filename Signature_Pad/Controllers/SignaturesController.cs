@@ -81,8 +81,8 @@ namespace Signature_Pad.Controllers
             return View(retSignature.ToList());
         }
 
-        // GET: Signatures/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Signatures/SignSheet/5
+        public async Task<IActionResult> SignSheet(int? id)
         {
             if (id == null || _context.Signature == null)
             {
@@ -126,8 +126,8 @@ namespace Signature_Pad.Controllers
             return View(signature);
         }
 
-        // GET: Signatures/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Signatures/Sign/5
+        public async Task<IActionResult> Sign(int? id)
         {
             if (id == null || _context.Signature == null)
             {
@@ -142,12 +142,12 @@ namespace Signature_Pad.Controllers
             return View(signature);
         }
 
-        // POST: Signatures/Edit/5
+        // POST: Signatures/Sign/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SignatureId,Signatures,ActualStart,ActualFinish,LoadNbr,ArrivalTime,CarrierName,Date,MbolNumber,TimeSlot")] Signature signature)
+        public async Task<IActionResult> Sign(int id, [Bind("SignatureId,Signatures,ActualStart,ActualFinish,LoadNbr,ArrivalTime,CarrierName,Date,MbolNumber,TimeSlot")] Signature signature)
         {
             if (id != signature.SignatureId)
             {
@@ -175,43 +175,6 @@ namespace Signature_Pad.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(signature);
-        }
-
-        // GET: Signatures/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Signature == null)
-            {
-                return NotFound();
-            }
-
-            var signature = await _context.Signature
-                .FirstOrDefaultAsync(m => m.SignatureId == id);
-            if (signature == null)
-            {
-                return NotFound();
-            }
-
-            return View(signature);
-        }
-
-        // POST: Signatures/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Signature == null)
-            {
-                return Problem("Entity set 'SignaturesContext.Signature'  is null.");
-            }
-            var signature = await _context.Signature.FindAsync(id);
-            if (signature != null)
-            {
-                _context.Signature.Remove(signature);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool SignatureExists(int id)

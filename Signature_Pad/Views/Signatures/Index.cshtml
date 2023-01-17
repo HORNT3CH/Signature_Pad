@@ -62,7 +62,7 @@
             <td class="fit">
                 @if (item.Signatures == null) 
                     {
-                        <a class="btn btn-primary mt-2" asp-action="Edit" asp-route-id="@item.SignatureId">Sign Driver Out</a>
+                        <a class="btn btn-primary mt-2" asp-action="Sign" asp-route-id="@item.SignatureId">Sign Driver Out</a>
                     } 
                     else
                     {
@@ -70,7 +70,7 @@
                     }
                     @if (item.Signatures != null)
                     {
-                        <a class="btn btn-warning mt-2" asp-action="Details" asp-route-id="@item.SignatureId" target="_blank">Print Sign Sheet</a>
+                        <a class="btn btn-warning mt-2" asp-action="SignSheet" asp-route-id="@item.SignatureId" target="_blank">Print Sign Sheet</a>
                     }
                     else
                     {
