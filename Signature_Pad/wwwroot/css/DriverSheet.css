@@ -1,0 +1,22 @@
+﻿@media print {
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        margin: 0;
+        padding: 0;
+        width: 191mm !important;
+    }
+    #printPageButton {
+        visibility: hidden;
+    }
+}
+
+@page {
+    size: 8.5in 11in landscape;
+    margin: 15mm 25mm !important;
+    text-align: center !important
+}

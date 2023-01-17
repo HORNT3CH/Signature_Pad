@@ -1,0 +1,30 @@
+﻿@model Signature_Pad.Models.Signature
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="mt-5">Enter Existing Load Number</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="form1" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label asp-for="LoadNbr" class="control-label"></label>
+                <input asp-for="LoadNbr" class="form-control form-control-lg" />
+                <span asp-validation-for="LoadNbr" class="text-danger"></span>
+            </div>
+            <div class="form-group btn-group-lg">
+                <input type="submit" value="Create" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,80 @@
+﻿@model Signature_Pad.Models.Signature
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/DriverSheet.css" />
+    <title>Driver Sign Sheet</title>
+</head>
+<body>
+    <div class="container">
+        <div class="display-1">Little Tikes - Driver Sheet</div>
+
+        <div>
+
+            <hr />
+            <div class="row mb-5">
+                <div class="col-sm-3">
+                    <label asp-for="LoadNbr" class="form-label"></label>
+                    <input asp-for="LoadNbr" class="form-control" readonly />
+                </div>
+                <div class="col-sm-3">
+                    <label asp-for="TimeSlot" class="form-label"></label>
+                    <input asp-for="TimeSlot" class="form-control" readonly />
+                </div>
+                <div class="col-sm-3">
+                    <label asp-for="ArrivalTime" class="form-label">Arrival Time</label>
+                    <input asp-for="ArrivalTime" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-sm-3">
+                    <label asp-for="ActualStart" class="form-label">Actual Start Time</label>
+                    <input asp-for="ActualStart" class="form-control" readonly />
+                </div>
+                <div class="col-sm-3">
+                    <label asp-for="ActualFinish" class="form-label">Actual Finish Time</label>
+                    <input asp-for="ActualFinish" class="form-control" readonly />
+                </div>
+                <div class="col-sm-3">
+                    <label asp-for="CarrierName" class="form-label">Carrier Name</label>
+                    <input asp-for="CarrierName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Date, new { @class = "control-label"})
+                    @Html.DisplayFor(model => model.Date, new { @class = "form-control"})
+                </div>
+                <div class="col-sm-3">
+                    <label asp-for="MbolNumber" class="form-label">Order Number</label>
+                    <input asp-for="MbolNumber" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="form-label">Finish Time Signature</label>
+                    <img src="@Model.Signatures" width="500" height="200" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="btn-group-lg">
+                        <button id="printPageButton" onclick="print()" class="btn btn-success">Print Sheet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+
+
+

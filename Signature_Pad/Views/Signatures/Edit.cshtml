@@ -1,0 +1,150 @@
+﻿@model Signature_Pad.Models.Signature
+
+@{
+    ViewData["Title"] = "Load # " + Model.LoadNbr;
+    
+}
+
+<h1 class="mt-5">Driver Sign Sheet for Load # @Model.LoadNbr</h1>
+
+<h4>1. Have driver sign | 2. Set Finish Button | 3. Get Signature Data Button | 4. Save Changes Button </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SignatureId" />
+            <div class="form-group">                
+                <span class="control-label">@Html.LabelFor(model => model.Date)</span>
+                <span class="form-control">@Html.DisplayFor(model => model.Date)</span>
+                <span class="form-control" hidden>@Html.TextBoxFor(model => model.Date)</span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="TimeSlot" class="control-label"></label>
+                <input asp-for="TimeSlot" class="form-control" readonly />
+                <span asp-validation-for="TimeSlot" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="LoadNbr" class="control-label"></label>
+                <input asp-for="LoadNbr" class="form-control" readonly />
+                <span asp-validation-for="LoadNbr" class="text-danger"></span>
+            </div>            
+            <div class="form-group" hidden>
+                <label asp-for="Signatures" class="control-label"></label>
+                <textarea id="SignatureData" style="width: 740px;height: 100px;" asp-for="Signatures" class="form-control">
+
+                </textarea>
+                <span asp-validation-for="Signatures" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarrierName" class="control-label"></label>
+                <input asp-for="CarrierName" class="form-control" readonly />
+                <span asp-validation-for="CarrierName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MbolNumber" class="control-label"></label>
+                <input asp-for="MbolNumber" class="form-control" readonly />
+                <span asp-validation-for="MbolNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalTime" class="control-label"></label>
+                <input asp-for="ArrivalTime" class="form-control" readonly />
+                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualStart" class="control-label"></label>
+                <input asp-for="ActualStart" class="form-control" readonly />
+                <span asp-validation-for="ActualStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualFinish" class="control-label"></label>
+                <input id="loadFinishTime" asp-for="ActualFinish" class="form-control" />
+                <span asp-validation-for="ActualFinish" class="text-danger"></span>
+            </div>
+            <div class="form-group btn-group-lg mt-2">
+                <input type="button" id="btnFinish" class="btn btn-danger" value="Set Finish Time" />
+            </div>                     
+            <div class="form-group btn-group-lg mt-4">
+                <input type="submit" value="Save Changes" class="btn btn-success" />
+            </div>
+        </form>
+        <div class="row mt-4">
+            <div class="col-md-10">
+                <div class=" btn-group-lg">
+                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#sign-modal">
+                        Launch Sign Pad
+                    </button>
+                    <a class="btn btn-secondary" asp-action="Index">Back to List</a>                    
+                </div>
+            </div>
+        </div>
+        <div class="form-group btn-group-lg mt-2">            
+            
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="sign-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Driver Sign Pad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <canvas title="Sign Driver Out" class="signature_box" width="700" height="300" id="signatureCanvas" style="border: 1px solid black;"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="btn-group-lg">
+                            <input type="button" id="btnData" class="btn btn-success ms-3 me-3" value="Get Signature Data" /> |
+                            <input type="button" id="btnReset" class="btn btn-warning ms-3" value="Reset" />
+                            <img id="signatureImage" class="ms-4" src="" width="100" />
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        const canvas = document.getElementById("signatureCanvas");
+        const signaturePad = new SignaturePad(canvas);
+        const getData = document.getElementById("btnData");
+        const reset = document.getElementById("btnReset");
+        const textArea = document.getElementById("SignatureData");
+        const sigImage = document.getElementById("signatureImage");
+
+        function startSign() {
+            getData.addEventListener("click", () => {
+                const data = signaturePad.toData();
+
+                if (data) {
+                    //signaturePad.fromData(data);
+                    const dataURL = signaturePad.toDataURL(data);
+                    textArea.textContent = dataURL;
+                    sigImage.src = textArea.textContent;
+                } else {
+                    console.log("no data");
+                }
+            })
+        }
+
+        reset.addEventListener("click", () => {
+            signaturePad.clear();
+            textArea.textContent = "";
+            sigImage.src = "";
+            startSign();
+        })
+
+        startSign();
+
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
