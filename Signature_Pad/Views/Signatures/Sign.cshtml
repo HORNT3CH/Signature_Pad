@@ -58,20 +58,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="ActualFinish" class="control-label"></label>
-                <input id="loadFinishTime" asp-for="ActualFinish" class="form-control" />
+                <input id="loadFinishTime" asp-for="ActualFinish"  class="form-control" />
                 <span asp-validation-for="ActualFinish" class="text-danger"></span>
             </div>
             <div class="form-group btn-group-lg mt-2">
                 <input type="button" id="btnFinish" class="btn btn-danger" value="Set Finish Time" />
             </div>                     
             <div class="form-group btn-group-lg mt-3">
-                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <p id="sigWarning" class="text-danger d-none">WARNING! Signature Not Captured. Luanch Sig Pad and have driver sign or Click "Get Signature Data".</p>
+                <input id="btnSubmit" type="submit" value="Save Changes" class="btn btn-success" />
             </div>
         </form>
         <div class="row mt-3">
             <div class="col-md-10">
                 <div class=" btn-group-lg">
-                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#sign-modal">
+                    <button id="btnLaunch" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#sign-modal">
                         Launch Sign Pad
                     </button>
                     <a class="btn btn-secondary" asp-action="Index">Back to List</a>
@@ -110,12 +111,31 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            var d = new Date();
+            var output = d.toLocaleDateString('sv', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            })
+            $('#loadFinishTime').val(output);
+            var status = 'Loaded';
+            $('#loadStatus').val(status);
+        });   
+
+
         const canvas = document.getElementById("signatureCanvas");
         const signaturePad = new SignaturePad(canvas);
         const getData = document.getElementById("btnData");
         const reset = document.getElementById("btnReset");
         const textArea = document.getElementById("signatureData");
         const sigImage = document.getElementById("signatureImage");
+        const sigWarning = document.getElementById("sigWarning");
+        const sigModal = document.getElementById("sign-modal");
+        const launch = document.getElementById("btnLaunch");
 
         function startSign() {
             getData.addEventListener("click", () => {
@@ -139,9 +159,22 @@
             startSign();
         })
 
-        startSign();
+        launch.addEventListener("click", () => {
+            if (sigWarning.classList.contains("d-none")) {
+                console.log("d-none exists")
+            } else {
+                sigWarning.classList.add("d-none");
+            }
+        })
 
+        sigModal.addEventListener('hidden.bs.modal', () => {
+            if (textArea.textContent === "") {
+                sigWarning.classList.remove("d-none");
+            }
+        })
 
+        startSign();        
+        
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

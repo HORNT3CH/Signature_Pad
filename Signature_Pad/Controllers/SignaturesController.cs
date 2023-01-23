@@ -73,7 +73,7 @@ namespace Signature_Pad.Controllers
 
             int recSkip = (pg - 1) * pageSize;
 
-            List<Signature> retSignature = signature.Skip(recSkip).Take(pageSize).OrderBy(m => m.Signatures).ToList();
+            List<Signature> retSignature = signature.Skip(recSkip).Take(pageSize).Where(m => m.MbolNumber != null).OrderBy(m => m.Signatures).ToList();
 
             Pager SearchPager = new Pager(recsCount, pg, pageSize) { Action = "Index", Controller = "Signatures", SearchText = SearchText };
             ViewBag.SearchPager = SearchPager;
