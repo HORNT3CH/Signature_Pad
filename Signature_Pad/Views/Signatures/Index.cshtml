@@ -11,12 +11,11 @@
         pageNo = pager.CurrentPage;
     }
 }
-}
 
 <h1 class="mt-5">Loads List</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Enter New Load #</a>
 </p>
 
 <partial name="_pager" model="@pager" />
@@ -24,85 +23,71 @@
 <table class="table table-bordered table-striped w-auto">
     <thead>
         <tr>
-            <th class="btn-group-vertical fit">
+            <th>
                 Action Buttons
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.TimeSlot)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.CarrierName)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.MbolNumber)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.LoadNbr)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.ActualStart)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.ActualFinish)
             </th>
-            <th class="fit">
+            <th>
                 @Html.DisplayNameFor(model => model.ArrivalTime)
-            </th>
-            <th class="fit">
-                @Html.DisplayNameFor(model => model.Signatures)
             </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td class="fit">
+            <td>
                 @if (item.Signatures == null) 
                     {
                         <a class="btn btn-primary mt-2" asp-action="Sign" asp-route-id="@item.SignatureId">Sign Driver Out</a>
-                    } 
-                    else
-                    {
-                        
                     }
-                    @if (item.Signatures != null)
+                    else
                     {
                         <a class="btn btn-warning mt-2" asp-action="SignSheet" asp-route-id="@item.SignatureId" target="_blank">Print Sign Sheet</a>
                     }
-                    else
-                    {
-                        
-                    }
                 </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.TimeSlot)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.CarrierName)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.MbolNumber)
             </td>
-            <td class="fit highlight">
+            <td>
                 @Html.DisplayFor(modelItem => item.LoadNbr)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.ActualStart)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.ActualFinish)
             </td>
-            <td class="fit">
+            <td>
                 @Html.DisplayFor(modelItem => item.ArrivalTime)
-            </td>
-            <td class="fit">
-                @Html.DisplayFor(modelItem => item.Signatures)
             </td>
         </tr>
 }

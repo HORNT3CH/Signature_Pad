@@ -1,10 +1,12 @@
 ﻿#nullable disable
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Signature_Pad.Data;
 using Signature_Pad.Models;
@@ -50,7 +52,7 @@ namespace Signature_Pad.Controllers
         }
 
         // GET: GetSignatures
-        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 10)
+        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 5)
         {
             List<Signature> signature;
 
@@ -111,8 +113,9 @@ namespace Signature_Pad.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SignatureId,Signatures,ActualStart,ActualFinish,LoadNbr,ArrivalTime,CarrierName,Date,MbolNumber,TimeSlot")] Signature signature)
-        {
+        {            
             var loadNbr = _context.Signature.FirstOrDefault(d => d.LoadNbr == signature.LoadNbr);
+            
             if (ModelState.IsValid && loadNbr == null)
             {
                 _context.Add(signature);
@@ -123,7 +126,6 @@ namespace Signature_Pad.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            return View(signature);
         }
 
         // GET: Signatures/Sign/5

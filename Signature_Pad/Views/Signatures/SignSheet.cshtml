@@ -49,8 +49,8 @@
             </div>
             <div class="row mb-5">
                 <div class="col-sm-3">
-                    @Html.LabelFor(model => model.Date, new { @class = "control-label"})
-                    @Html.DisplayFor(model => model.Date, new { @class = "form-control"})
+                    <span class="control-label">@Html.LabelFor(model => model.Date)</span>
+                    <span class="form-control">@Html.DisplayFor(model => model.Date)</span>
                 </div>
                 <div class="col-sm-3">
                     <label asp-for="MbolNumber" class="form-label">Order Number</label>

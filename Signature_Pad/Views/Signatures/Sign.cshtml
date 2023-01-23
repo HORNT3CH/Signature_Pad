@@ -5,10 +5,10 @@
     
 }
 
-<h1 class="mt-5">Driver Sign Sheet for Load # @Model.LoadNbr</h1>
+<h2 class="mt-5">Driver Sign Sheet for Load # @Model.LoadNbr</h2>
 
-<h4>1. Have driver sign | 2. Set Finish Button | 3. Get Signature Data Button | 4. Save Changes Button </h4>
-<hr />
+<p>1. Have driver sign | 2. Set Finish Button | 3. Get Signature Data Button | 4. Save Changes Button </p>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Sign">
@@ -31,7 +31,7 @@
             </div>            
             <div class="form-group" hidden>
                 <label asp-for="Signatures" class="control-label"></label>
-                <textarea id="SignatureData" style="width: 740px;height: 100px;" asp-for="Signatures" class="form-control">
+                <textarea id="signatureData" style="width: 740px;height: 100px;" asp-for="Signatures" class="form-control">
 
                 </textarea>
                 <span asp-validation-for="Signatures" class="text-danger"></span>
@@ -64,22 +64,19 @@
             <div class="form-group btn-group-lg mt-2">
                 <input type="button" id="btnFinish" class="btn btn-danger" value="Set Finish Time" />
             </div>                     
-            <div class="form-group btn-group-lg mt-4">
+            <div class="form-group btn-group-lg mt-3">
                 <input type="submit" value="Save Changes" class="btn btn-success" />
             </div>
         </form>
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="col-md-10">
                 <div class=" btn-group-lg">
                     <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#sign-modal">
                         Launch Sign Pad
                     </button>
-                    <a class="btn btn-secondary" asp-action="Index">Back to List</a>                    
+                    <a class="btn btn-secondary" asp-action="Index">Back to List</a>
                 </div>
             </div>
-        </div>
-        <div class="form-group btn-group-lg mt-2">            
-            
         </div>
     </div>
 </div>
@@ -92,8 +89,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <canvas title="Sign Driver Out" class="signature_box" width="700" height="300" id="signatureCanvas" style="border: 1px solid black;"></canvas>
+                    <div class="col-md-8 ms-2">
+                        <canvas title="Sign Driver Out" class="signature_box" width="750" height="300" id="signatureCanvas" style="border: 1px solid black;"></canvas>
                     </div>
                 </div>
                 <div class="row">
@@ -117,7 +114,7 @@
         const signaturePad = new SignaturePad(canvas);
         const getData = document.getElementById("btnData");
         const reset = document.getElementById("btnReset");
-        const textArea = document.getElementById("SignatureData");
+        const textArea = document.getElementById("signatureData");
         const sigImage = document.getElementById("signatureImage");
 
         function startSign() {
