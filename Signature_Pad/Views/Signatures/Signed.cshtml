@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Signature_Pad.Models.Signature>
+
+@{
+    ViewData["Title"] = "Loads List";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.SearchPager != null)
+    {
+        pager = ViewBag.SearchPager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h1 class="mt-5">Loads List</h1>
+
+<partial name="_pager" model="@pager" />
+
+<table class="table table-bordered table-striped w-auto">
+    <thead>
+        <tr>
+            <th>
+                Action Buttons
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeSlot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarrierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MbolNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoadNbr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualFinish)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.Signatures == null)
+                    {
+                        <a class="btn btn-primary mt-2" asp-action="Sign" asp-route-id="@item.SignatureId">Sign Driver Out</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-warning mt-2" asp-action="SignSheet" asp-route-id="@item.SignatureId" target="_blank">Print Sign Sheet</a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeSlot)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarrierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MbolNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoadNbr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualFinish)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

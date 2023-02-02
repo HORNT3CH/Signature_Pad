@@ -51,8 +51,8 @@ namespace Signature_Pad.Controllers
             return pagesSizes;
         }
 
-        // GET: GetSignatures
-        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 5)
+        // GET: GetSignatures Unsigned
+        public IActionResult Index(string SearchText = "", int pg = 1, int pageSize = 20)
         {
             List<Signature> signature;
 
@@ -61,7 +61,8 @@ namespace Signature_Pad.Controllers
             if (SearchText != "" && SearchText != null)
             {
                 signature = _context.Signature
-                    .Where(p => p.LoadNbr.Contains(SearchText))
+                    .Where(p => p.LoadNbr.Contains(SearchText) && p.MbolNumber != null && p.ActualFinish == null)
+                    .OrderByDescending(p => p.SignatureId)
                     .ToList();
             }
             else
@@ -73,7 +74,50 @@ namespace Signature_Pad.Controllers
 
             int recSkip = (pg - 1) * pageSize;
 
-            List<Signature> retSignature = signature.Skip(recSkip).Take(pageSize).Where(m => m.MbolNumber != null).OrderBy(m => m.Signatures).ToList();
+            List<Signature> retSignature = signature
+                .Skip(recSkip)
+                .Take(pageSize)
+                .Where(m => m.MbolNumber != null && m.ActualFinish == null)
+                .OrderByDescending(m => m.SignatureId)
+                .ToList();
+
+            Pager SearchPager = new Pager(recsCount, pg, pageSize) { Action = "Index", Controller = "Signatures", SearchText = SearchText };
+            ViewBag.SearchPager = SearchPager;
+
+            this.ViewBag.PageSizes = GetPageSizes(pageSize);
+
+            return View(retSignature.ToList());
+        }
+
+        // GET: GetSignatures Unsigned
+        public IActionResult Signed(string SearchText = "", int pg = 1, int pageSize = 20)
+        {
+            List<Signature> signature;
+
+            if (pg < 1) pg = 1;
+
+            if (SearchText != "" && SearchText != null)
+            {
+                signature = _context.Signature
+                    .Where(p => p.LoadNbr.Contains(SearchText) && p.MbolNumber != null && p.ActualFinish != null && p.Signatures != null)
+                    .OrderByDescending(p => p.SignatureId)
+                    .ToList();
+            }
+            else
+            {
+                signature = _context.Signature.ToList();
+            }
+
+            int recsCount = signature.Count();
+
+            int recSkip = (pg - 1) * pageSize;
+
+            List<Signature> retSignature = signature
+                .Skip(recSkip)
+                .Take(pageSize)
+                .Where(m => m.MbolNumber != null && m.ActualFinish != null && m.Signatures != null)
+                .OrderByDescending(m => m.SignatureId)
+                .ToList();
 
             Pager SearchPager = new Pager(recsCount, pg, pageSize) { Action = "Index", Controller = "Signatures", SearchText = SearchText };
             ViewBag.SearchPager = SearchPager;
