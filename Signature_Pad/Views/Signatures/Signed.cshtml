@@ -3,18 +3,18 @@
 @{
     ViewData["Title"] = "Loads List";
 
-    Pager pager = new Pager();
-    int pageNo = 0;
+    PagerSigned pager = new PagerSigned();
+    int pageNoSigned = 0;
     if (ViewBag.SearchPager != null)
     {
         pager = ViewBag.SearchPager;
-        pageNo = pager.CurrentPage;
+        pageNoSigned = pager.CurrentPage;
     }
 }
 
 <h1 class="mt-5">Loads List</h1>
 
-<partial name="_pager" model="@pager" />
+<partial name="_pagerSigned" model="@pager" />
 
 <table class="table table-bordered table-striped w-auto">
     <thead>
